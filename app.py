@@ -3,34 +3,72 @@
 from os import system
 
 class Title:
-    pass
 
-class Author:
-    pass
+    def __init__( self, text ):
+        self.text = text
+
+#    def __str__( self):
+#        return self.text
+    
+    def outColor( self ):
+        for i in self.text:
+            if( i == "-" ):
+                print( f"\033[30m{i}", sep = "", end = "" )
+            elif( i == "=" ):
+                print( f"\033[34m{i}", sep = "", end = "" )
+
+            else:
+             print( f"\033[35m{i}", sep = "", end = "" )
+    
+    def modTitle( self ):
+        self.text = self.text.upper()
+        self.text = self.text.split()
+        self.text.insert( 0, "-" )
+        self.text.insert( 1, "=" )
+        self.text.append( "=" )
+        self.text.append( "-" )
+        return self.text
+    
+    def outColor( self, splitText ):
+        
+        extrem_1 = 0
+        extrem_2 = 1
+        k = 0
+        max_range = len(splitText) - 1
+        
+        for i in splitText:
+            #coloring extrem letters 1
+            if( i == splitText[extrem_1] or\
+                i == splitText[max_range - extrem_1]\
+               ):
+                print( f"\033[30m{i} ", end = "" )
+                k += 1
+            #coloring extrem letters 2
+            elif( i == splitText[extrem_2] or\
+                  i == splitText[max_range - extrem_2]\
+                ):
+                print( f"\033[34m{i} ", end = "" )
+                k += 1
+            
+            #coloring two first words of text
+            elif( i == splitText[k] or i == splitText[k + 1] ):
+                print( f"\033[35m{i} ", end = "" )
+            
+            #coloring rest
+            else:
+                print( f"\033[34m{i} ", end = "" )
+        print()
 
 
-def newTitle( text ):
-    title = Title()
-    title = text
-    return title
+###### create ######
 
-def newAuthor( text ):
-    author = Author()
-    author = text
-    return author
+title = Title( "Programming in Python 3" )
+mod = title.modTitle()
 
-title1 = newTitle( "A Very Easy Death" )
-title2 = newTitle( "Dauther" )
-
-
-author2 = newAuthor( "Alexandra Lvovna Tolstaya" )
-author1 = newAuthor( "Simone De Beauvoir" )
-
-
-
-
+#### VIEW ############
 
 system( "clear" )
 print()
-print( f"{title1:20}  {author1}" )
-print( f"{title2:20} {author2}" )
+title.outColor(mod)
+
+##
